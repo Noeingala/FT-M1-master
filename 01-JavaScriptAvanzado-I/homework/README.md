@@ -9,88 +9,107 @@ Determiná que será impreso en la consola, sin ejecutar el código.
 
 > Investiga cuál es la diferencia entre declarar una variable con `var` y directamente asignarle un valor.
 
+
+
+
 ```javascript
-x = 1;
-var a = 5;
+x = 1;                              //1
+var a = 5;                 
 var b = 10;
 var c = function(a, b, c) {
   var x = 10;
-  console.log(x);
-  console.log(a);
+  console.log(x);                   //10
+  console.log(a);                   //8
   var f = function(a, b, c) {
     b = a;
-    console.log(b);
+    console.log(b);                 //8
     b = c;
     var x = 5;
   }
   f(a,b,c);
-  console.log(b);
+  console.log(b);                   //9 (porque esta dentro de var c = function(a,b,c))
 }
-c(8,9,10);
-console.log(b);
-console.log(x);
+
+c(8,9,10); 
+console.log(b);                      //10
+console.log(x);                      //1
 ```
 
+
+
+
+
 ```javascript
-console.log(bar);
-console.log(baz);
-foo();
-function foo() { console.log('Hola!'); }
+console.log(bar);                               //undefined
+console.log(baz);                               //undefined (mal) tira error porque no esta definida
+foo();                                          //no arroja nada porque solo la invoco
+function foo() { console.log('Hola!'); }        //console.log('Hola!')
 var bar = 1;
 baz = 2;
 ```
+
+
 
 ```javascript
 var instructor = "Tony";
 if(true) {
     var instructor = "Franco";
 }
-console.log(instructor);
+console.log(instructor);               //"Franco"
 ```
+
+
+
 
 ```javascript
 var instructor = "Tony";
-console.log(instructor);
+console.log(instructor);                  //"Tony"
 (function() {
    if(true) {
       var instructor = "Franco";
-      console.log(instructor);
+      console.log(instructor);            //"Franco"
    }
 })();
-console.log(instructor);
+console.log(instructor);                  //"Tony"
 ```
+
+
+
 ```javascript
 var instructor = "Tony";
 let pm = "Franco";
 if (true) {
     var instructor = "The Flash";
     let pm = "Reverse Flash";
-    console.log(instructor);
-    console.log(pm);
+    console.log(instructor);              //"The Flash"
+    console.log(pm);                      //"Reverse Flash"
 }
-console.log(instructor);
-console.log(pm);
+console.log(instructor);                  //"The Flash" (porque al ser var la pisa)
+console.log(pm);                          //"Franco" (porque el 'let pm = "Reverse Flash"' muere dentro del if)
 ```
+
+
+
 ### Coerción de Datos
 
 ¿Cuál crees que será el resultado de la ejecución de estas operaciones?:
 
 ```javascript
-6 / "3"
-"2" * "3"
-4 + 5 + "px"
-"$" + 4 + 5
-"4" - 2
-"4px" - 2
-7 / 0
-{}[0]
-parseInt("09")
+6 / "3"                                      // 2 (porque convienrte el string a numero)
+"2" * "3"                                    // 6 (porque  convierte los strings a numeros y multiplica)
+4 + 5 + "px"                                 // 9px (porque hace la suma y lo concatena con el string)
+"$" + 4 + 5                                  // $45 (concatena el string y hace la suma)
+"4" - 2                                      // 2 (convierte el string a numero y hace la resta)
+"4px" - 2                                    // nan
+7 / 0                                        // infinity ??
+{}[0]                                        // [0] ??
+parseInt("09")                               // 9 ??
 5 && 2
 2 && 5
 5 || 0
 0 || 5
-[3]+[3]-[10]
-3>2>1
+[3]+[3]-[10]                                 // 23 (conctena los 2 primeros arrays y le resta el 3ro)
+3>2>1                                        // false 
 [] == ![]
 ```
 
@@ -101,10 +120,12 @@ parseInt("09")
 
 ¿Cuál es el output o salida en consola luego de ejecutar este código? Explicar por qué:
 
+
+
 ```javascript
 function test() {
-   console.log(a);
-   console.log(foo());
+   console.log(a);                  //undef
+   console.log(foo());              //2
 
    var a = 1;
    function foo() {
@@ -115,21 +136,29 @@ function test() {
 test();
 ```
 
+
+
+
+
 Y el de este código? :
 
-```javascript
+```javascript                                   //????//
+
 var snack = 'Meow Mix';
 
 function getFood(food) {
     if (food) {
         var snack = 'Friskies';
-        return snack;
+        return snack;                        //'Friskies'
     }
-    return snack;
+    return snack;                            //'Friskies'
 }
 
-getFood(false);
+getFood(false);                               
 ```
+
+
+
 
 
 ### This
@@ -137,6 +166,8 @@ getFood(false);
 ¿Cuál es el output o salida en consola luego de ejecutar esté código? Explicar por qué:
 
 ```javascript
+
+
 var fullname = 'Juan Perez';
 var obj = {
    fullname: 'Natalia Nerea',
@@ -148,23 +179,31 @@ var obj = {
    }
 };
 
-console.log(obj.prop.getFullname());
+console.log(obj.prop.getFullname());       //'Aurelio De Rosa'
 
 var test = obj.prop.getFullname;
 
-console.log(test());
+console.log(test());    //'Juan Perez' (porque sale del contexto de ejecuccion y toma el fullname de  arriba )
 ```
+
+
+
 
 ### Event loop
 
 Considerando el siguiente código, ¿Cuál sería el orden en el que se muestra por consola? ¿Por qué?
 
+
+
+
 ```javascript
+
+
 function printing() {
-   console.log(1);
-   setTimeout(function() { console.log(2); }, 1000);
-   setTimeout(function() { console.log(3); }, 0);
-   console.log(4);
+   console.log(1);                                           // 1
+   setTimeout(function() { console.log(2); }, 1000);         // 4
+   setTimeout(function() { console.log(3); }, 0);            // 3
+   console.log(4);                                           // 2
 }
 
 printing();
